@@ -1,0 +1,5 @@
+/.idea/
+/venv/
+/.env
+/.env.prod.db
+/.env.dev

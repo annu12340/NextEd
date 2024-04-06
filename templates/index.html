@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <title>Flash Cards App</title>
+
+      {% include 'navbar.html'%}
+   </head>
+
+   <body>
+      <div>
+         <section class="text-gray-200 bg-gray-900">
+            <div class="max-w-6xl mx-auto px-5 py-24">
+               <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+                  <h1 class="title-font mb-2 text-4xl font-extrabold leading-10 tracking-tight text-left sm:text-5xl sm:leading-none md:text-6xl">Flash Cards</h1>
+                  <p class="lg:w-1/2 w-full leading-relaxed text-base">An app to share Flash Cards</p>
+                  {% if user.is_authenticated %}
+                  <div>
+                     <button id="buttonmodal" class="mt-5 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" type="button">Add FlashCard +</button>
+                  </div>
+                  {% endif %}
+               </div>
+               <div class="flex flex-wrap -m-4" id="flashcard-container">
+                  {% for item in flashcards %}
+                  <div class="xl:w-1/3 md:w-1/2 p-4 transition duration-500 transform hover:-translate-y-5 hover:scale-110" id="{{ forloop.counter0 }}">
+                     <div class="border border-gray-300 p-6 rounded-lg">
+                        <h2 class="text-lg font-extrabold text-center title-font mb-2">{{ item.subject }}</h2>
+                        <p class="leading-relaxed text-center flashcard-title">{{ item.title}}</p>
+                        <p class="leading-relaxed text-center flashcard-content hidden">{{ item.content}}</p>
+                     </div>
+                  </div>
+                  {% endfor %}
+               </div>
+            </div>
+         </section>
+      </div>
+
+      <!-- modal component -->
+      <div id="modal" class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-gray-500 bg-opacity-50 transform scale-0 transition-transform duration-300">
+         <div class="flex flex-col w-11/12 sm:w-5/6 lg:w-1/2 max-w-2xl mx-auto rounded-lg border border-gray-300 shadow-xl">
+            <form id="flashcard-form" method="post" action="">
+               {% csrf_token %}
+               <div class="flex flex-row justify-between p-6 bg-white border-b border-gray-200 rounded-tl-lg rounded-tr-lg">
+                  <p class="font-semibold text-gray-800">Add flash card</p>
+                  <button id="closebutton" class="focus:outline-none">
+                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                     </svg>
+                  </button>
+               </div>
+               <div class="flex flex-col px-6 py-5 bg-gray-50">
+                  <p class="mb-2 font-semibold text-gray-700">Front Side</p>
+                  <textarea type="text" name="frontText" placeholder="Type front side of flashcard..." class="p-5 mb-5 bg-white border border-gray-200 rounded shadow-sm h-28" id="frontText" required></textarea>
+                  <p class="mb-2 font-semibold text-gray-700">Back Side</p>
+                  <textarea type="text" name="backText" placeholder="Type back side of flashcard..." class="p-5 mb-5 bg-white border border-gray-200 rounded shadow-sm h-28" id="backText" required></textarea>
+                  <div class="flex flex-col sm:flex-row items-center mb-5 sm:space-x-5">
+                     <div class="w-full sm:w-1/2 mt-2 sm:mt-0">
+                        <p class="mb-2 font-semibold text-gray-700">Subject</p>
+                        <input type="text" list="subjects" name="subject" class="w-full p-4 bg-white border border-gray-200 rounded shadow-sm appearance-none" required />
+                        <datalist id="subjects">
+                           {% for item in subjects %}
+                           <option>{{ item.subject }}</option>
+                           {% endfor %}
+                        </datalist>
+                     </div>
+                     <div class="w-full sm:w-1/2">
+                        <label class="inline-flex items-center pt-7 mt-3">
+                           <input class="inline-flex rounded-full form-checkbox h-5 w-5" type="checkbox" id="check" name="private" />
+                           <span class="ml-2 text-gray-700">Make FlashCard Private</span>
+                        </label>
+                     </div>
+                  </div>
+               </div>
+               <div class="flex flex-row-reverse p-5 bg-white border-t border-gray-200 rounded-bl-lg rounded-br-lg">
+                  <button class="px-4 py-2 text-white font-semibold bg-blue-500 rounded" type="submit">Save</button>
+               </div>
+            </form>
+         </div>
+      </div>
+
+      <script>
+         const modal = document.getElementById("modal");
+         const button = document.getElementById("buttonmodal");
+         const closebutton = document.getElementById("closebutton");
+         const flashcards = document.querySelectorAll(".flashcard-title");
+         const contents = document.querySelectorAll(".flashcard-content");
+
+         button.addEventListener("click", () => modal.classList.add("scale-100"));
+         closebutton.addEventListener("click", () => modal.classList.remove("scale-100"));
+
+         flashcards.forEach((flashcard, index) => {
+            flashcard.addEventListener("mouseover", () => {
+               contents[index].classList.remove("hidden");
+               flashcard.classList.add("hidden");
+            });
+
+            contents[index].addEventListener("mouseout", () => {
+               flashcard.classList.remove("hidden");
+               contents[index].classList.add("hidden");
+            });
+         });
+      </script>
+   </body>
+</html>
