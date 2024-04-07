@@ -4,6 +4,7 @@ from django.contrib.auth import login as auth_login,logout as auth_logout
 from django.contrib.auth.models import User
 from .backends import EmailBackend
 from .models import FlashCard
+from notes.models import Notes
 from django.contrib.auth.decorators import  login_required
 
 def index(request):
@@ -12,7 +13,9 @@ def index(request):
     return render(request,'index.html',context)
 
 def dashboard(request):
-    return render(request,'dashboard.html')
+    notes = Notes.objects.filter(owner=request.user.id)
+    print(notes)
+    return render(request,'dashboard.html',{'notes':notes})
 
 @login_required(login_url='login')
 def homePage(request):
