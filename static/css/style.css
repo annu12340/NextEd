@@ -1,60 +1,67 @@
-/* style.css */
-
-/* Card */
-.card {
-   border: 1px solid #ddd;
-   border-radius: 8px;
-   transition: all 0.3s ease;
+body {
+   overflow-x: hidden;
 }
-
-/* Card Title */
-.card-title {
-   font-size: 1.25rem; /* 20px */
-   font-weight: 600;
-   color: #333;
-}
-
-/* Card Text */
-.card-text {
-   font-size: 1rem; /* 16px */
-   color: #666;
-   line-height: 1.5;
-}
-
-/* Card Hover Effect */
-.card:hover {
-   transform: translateY(-5px);
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Card Container */
 .card-container {
-   display: flex;
-   flex-direction: column;
-   height: 100%;
+   padding: 1.5rem;
+   background-color: rgb(230, 232, 232);
+   border-radius: 10px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Card Body */
-.card-body {
-   flex-grow: 1;
+.card-title {
+   font-size: 1.25rem;
+   font-weight: bold;
+   color: #333333; /* Dark grey text */
 }
 
-/* Card Footer */
-.card-footer {
-   background-color: #f8f9fa;
-   padding: 0.75rem;
-   border-top: 1px solid #ddd;
-   border-bottom-left-radius: 8px;
-   border-bottom-right-radius: 8px;
-}
-
-/* Keywords */
 .keywords {
-   font-size: 0.875rem; /* 14px */
-   color: #888;
+   font-size: 0.875rem;
+   color: #666666; /* Light grey text */
 }
 
-/* Card Footer Hover Effect */
-.card-footer:hover {
-   background-color: #e9ecef;
+.grid {
+   gap: 1.5rem;
+   padding: 2rem;
+}
+
+.mb-4 {
+   margin-bottom: 1.5rem;
+}
+
+/* Progress bar */
+.progress-bar {
+   width: 100%;
+   background-color: #f0f0f0; /* Background color of the progress bar container */
+   border-radius: 5px; /* Rounded corners */
+   overflow: hidden;
+}
+
+.progress-bar-inner {
+   width: 60%;
+   font-size: 10px;
+   height: 13px;
+   background-color: #4caf50; /* Color of the progress */
+   transition: width 0.5s ease-in-out; /* Smooth animation effect */
+}
+
+.loader {
+   border: 8px solid #f3f3f3; /* Light grey */
+   border-top: 8px solid #3498db; /* Blue */
+   border-radius: 50%;
+   width: 50px;
+   height: 50px;
+   animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+   0% {
+      transform: rotate(0deg);
+   }
+   100% {
+      transform: rotate(360deg);
+   }
+}
+
+.hidden {
+   display: none;
 }
