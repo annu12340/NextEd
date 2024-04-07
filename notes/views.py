@@ -2,6 +2,9 @@
 from django.shortcuts import render
 from .models import Notes
 # Create your views here.
+from openai import OpenAI
+
+YOUR_API_KEY = "INSERT API KEY HERE"
 
 def create_notes(request):
     return render(request,'create-notes.html')
@@ -12,7 +15,12 @@ def create_notes(request):
         title = request.POST.get('title')
         content = request.POST.get('content')
         owner = request.user.id
-        Notes.objects.create(title=title,content=content,owner=owner)
+        
+        short_notes=openai_response(f"Summarize the text into short and crisp notes {content}")
+        questions=openai_response(f"Create questions and answers for this content {content}")
+        mnemonics=openai_response(f"Create a mnemonics for this text {content}")
+        simple_explanation=openai_response(f"Imagine that you are my mentor. Explain this topic like I am 5 {content}")
+        Notes.objects.create(title=title,content=short_notes,owner=owner,mnemonics=mnemonics,questions=questions,simple_explanation=simple_explanation)
         # return redirect('homePage')
 
     return render(request,'create-notes.html')
@@ -61,6 +69,32 @@ def quiz(request,id):
         'questions_count': len(questions)
     })
 
+
+def openai_response(prompt):
+
+    messages = [
+    
+        {
+            "role": "user",
+            "content": (
+            prompt
+            ),
+        },
+    ]
+
+    client = OpenAI(api_key=YOUR_API_KEY, base_url="https://api.perplexity.ai")
+
+
+    # chat completion with streaming
+    response_stream = client.chat.completions.create(
+        model="mistral-7b-instruct",
+        messages=messages,
+        stream=True,
+    )
+    result=''
+    for response in response_stream:
+        result+=response
+    return response
 
 
 def calculate_score_and_feedback(user_answer, correct_answer):
