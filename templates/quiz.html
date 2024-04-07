@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block content %}
+<main class="container mx-auto px-4 sm:px-16 lg:px-8 py-8">
+   <h1 class="text-4xl font-bold mb-4">Battle field</h1>
+   <br />
+   <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="current_question_index" value="{{ current_question_index }}" />
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-10">
+         <div class="md:col-span-2 bg-white shadow-md rounded-lg px-10 py-8">
+            <div class="mb-4">
+               <label for="answer" class="block font-semibold mb-2">{{ current_question }}</label>
+               <textarea id="answer" rows="20" name="answer" class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 resize-none h-32" style="border-color: #8d8c8c"></textarea>
+            </div>
+
+            <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onclick="updateFeedback('Your custom feedback text here'); return false;">Evaluate</button>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next Question</button>
+         </div>
+         <aside id="feedback-section" class="bg-gray-200 shadow-md rounded-lg px-4 py-8">
+            <h2 class="text-lg font-bold mb-4">Feedback</h2>
+            <p>Total Score: {{ total_score }}</p>
+            <p id="feedback-text">{{ feedback }}</p>
+         </aside>
+      </div>
+   </form>
+</main>
+
+<script>
+   function updateFeedback(text) {
+      //   response = CHATpplx70b("poem of education");
+
+      document.getElementById("feedback-text").innerText = text;
+   }
+
+   function CHATpplx70b(prompt) {
+      const SECRET_KEY = KEY;
+
+      const url = "https://api.perplexity.ai/chat/completions";
+      const payload = {
+         model: "pplx-70b-chat",
+         messages: [
+            { role: "system", content: "System prompt goes here." },
+            { role: "user", content: prompt },
+         ],
+         temperature: 0.2,
+      };
+      const options = {
+         contentType: "application/json",
+         headers: { Authorization: "Bearer " + SECRET_KEY },
+         payload: JSON.stringify(payload),
+      };
+
+      fetch(url, options)
+         .then((response) => {
+            if (!response.ok) {
+               throw new Error("Network response was not ok");
+            }
+            console.log("fdsfds");
+            return response.json(); // Parse the response as JSON
+         })
+         .then((data) => {
+            console.log(data); // Handle the parsed data
+         })
+         .catch((error) => {
+            console.error("There was a problem with the fetch operation:", error);
+         });
+   }
+</script>
+{% endblock %}

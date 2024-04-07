@@ -21,4 +21,5 @@ urlpatterns = [
     path('create/', views.create_notes, name='create_notes'),
     path('view/<int:id>/', views.view_notes, name='view_notes'),
     path('cards/<int:id>/', views.view_flashcards, name='view_flashcards'),
+    path('quiz/<int:id>/', views.quiz, name='quiz'),
 ]
