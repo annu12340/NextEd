@@ -25,3 +25,6 @@ def view_notes(request, id):
     }
 
     return render(request, 'view-notes.html', context)
+
+def view_flashcards(request,id):
+    return render(request, 'view-flashcards.html')
