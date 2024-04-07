@@ -1,18 +1,19 @@
 {% extends 'base.html' %} {% block content %} {% load static %}
 <main class="p-6 sm:p-10 space-y-6">
-   <form class="max-w-lg mx-auto bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
+   <form class="max-w-lg mx-auto bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4" method="post" action="{% url 'create_notes' %}">
+      {% csrf_token %}
       <div class="mb-6">
-         <label class="block text-gray-700 text-sm font-bold mb-2" for="topicInput">Topic Name:</label>
-         <input id="topicInput" name="topicInput" type="text" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter topic name..." />
+         <label class="block text-gray-700 text-sm font-bold mb-2" for="title">Topic Name:</label>
+         <input id="title" name="title" type="text" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter topic name..." />
       </div>
 
       <div class="mb-6">
-         <label class="block text-gray-700 text-sm font-bold mb-2" for="textAreaInput">Enter Text:</label>
-         <textarea id="textAreaInput" name="textAreaInput" rows="15" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none" placeholder="Type your text here..."></textarea>
+         <label class="block text-gray-700 text-sm font-bold mb-2" for="content">Enter Text:</label>
+         <textarea id="content" name="content" rows="15" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none" placeholder="Type your text here..."></textarea>
       </div>
 
       <div class="flex items-center justify-end">
-         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">Submit</button>
+         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Submit</button>
       </div>
    </form>
 </main>
