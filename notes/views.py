@@ -21,7 +21,7 @@ def create_notes(request):
         mnemonics=openai_response(f"Create a mnemonics for this text {content}")
         simple_explanation=openai_response(f"Imagine that you are my mentor. Explain this topic like I am 5 {content}")
         Notes.objects.create(title=title,content=short_notes,owner=owner,mnemonics=mnemonics,questions=questions,simple_explanation=simple_explanation)
-        # return redirect('homePage')
+        return redirect('homePage')
 
     return render(request,'create-notes.html')
 
@@ -50,9 +50,7 @@ def quiz(request,id):
         current_question_index = int(request.POST.get('current_question_index', 0))
         user_answer = request.POST.get('answer', '')
         
-        # Assuming you have a function to calculate score and feedback based on answers
-        total_score, feedback = calculate_score_and_feedback(user_answer, questions[current_question_index])
-        
+     
         if current_question_index < len(questions) - 1:
             current_question_index += 1
 
@@ -97,9 +95,3 @@ def openai_response(prompt):
     return response
 
 
-def calculate_score_and_feedback(user_answer, correct_answer):
-    # Calculate total score based on answers
-    # Determine feedback based on answers
-    total_score=0
-    feedback=''
-    return total_score, feedback
