@@ -23,5 +23,5 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('homePage/', views.homePage, name='homePage'),
     path('dashboard/', views.dashboard, name='dashboard'),
-    
+
 ]
