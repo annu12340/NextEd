@@ -1,7 +1,6 @@
-from django.contrib import messages
+
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
+from django.contrib.auth import login as auth_login,logout as auth_logout
 from django.contrib.auth.models import User
 from .backends import EmailBackend
 from .models import FlashCard
@@ -12,6 +11,8 @@ def index(request):
     context ={'flashcards':flashcards}
     return render(request,'index.html',context)
 
+def dashboard(request):
+    return render(request,'dashboard.html')
 
 @login_required(login_url='login')
 def homePage(request):
