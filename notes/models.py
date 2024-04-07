@@ -7,6 +7,7 @@ class Notes(models.Model):
     content = models.TextField()
     keywords = models.CharField(max_length=100)
     mnemonics  = models.CharField(max_length=500)
+    questions  = models.CharField(max_length=500)
     owner = models.IntegerField()
 
 
